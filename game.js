@@ -64,6 +64,7 @@ let deck = [];
 let index = 0;
 let score = 0;
 let answered = false;
+let hints = 0;
 
 function show(name) {
   for (const s of screens) $(s).hidden = s !== name;
@@ -96,6 +97,7 @@ function start() {
   deck = shuffle(window.SCENARIOS);
   index = 0;
   score = 0;
+  hints = 0;
   show("question");
   render();
 }
@@ -123,12 +125,20 @@ function render() {
     li.querySelector(".value").textContent = s.stats[key];
     stats.appendChild(li);
   }
+  stats.hidden = true;
+  $("hint-btn").hidden = false;
 
   for (const b of $("flags").children) {
     b.disabled = false;
     b.classList.remove("correct", "incorrect", "chosen");
   }
   $("feedback").hidden = true;
+}
+
+function showHint() {
+  if ($("stats").hidden && !answered) hints++;
+  $("stats").hidden = false;
+  $("hint-btn").hidden = true;
 }
 
 function answer(key) {
@@ -148,6 +158,7 @@ function answer(key) {
   const result = $("result");
   result.textContent = right ? "Correct!" : `Wrong! It was ${FLAGS[s.flag].label}.`;
   result.className = "verdict " + (right ? "right" : "wrong");
+  showHint();
   if (s.key) $("stats").querySelector(`[data-stat="${s.key}"]`)?.classList.add("key");
   $("reason").textContent = s.reason;
   $("restriction").textContent = `${FLAGS[s.flag].label}: ${FLAGS[s.flag].restriction}`;
@@ -164,17 +175,21 @@ function next() {
 
 function finish() {
   $("score").textContent = `${score} / ${deck.length}`;
+  $("hints-used").textContent =
+    hints === 0 ? "No hints used. Impressive." : `${hints} hint${hints === 1 ? "" : "s"} used.`;
   const v = window.VERDICTS.find((v) => score >= v.min);
   $("final-verdict").textContent = v ? v.text : "";
   show("end");
 }
 
-// Keyboard: 1-5 picks a flag, Enter/Space advances.
+// Keyboard: 1-5 picks a flag, H shows the hint, Enter/Space advances.
 document.addEventListener("keydown", (e) => {
   if ($("question").hidden) return;
   const n = Number(e.key);
   if (!answered && n >= 1 && n <= 5) {
     answer(Object.keys(FLAGS)[n - 1]);
+  } else if (e.key.toLowerCase() === "h") {
+    showHint();
   }
 });
 
@@ -182,4 +197,5 @@ $("count").textContent = window.SCENARIOS.length;
 buildFlagButtons();
 $("start-btn").addEventListener("click", start);
 $("next-btn").addEventListener("click", next);
+$("hint-btn").addEventListener("click", showHint);
 $("again-btn").addEventListener("click", start);
