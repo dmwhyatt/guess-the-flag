@@ -108,6 +108,8 @@ function answer(key) {
   const result = $("result");
   result.textContent = right ? "Correct!" : `Wrong! It was ${FLAGS[s.flag].label}.`;
   result.className = "verdict " + (right ? "right" : "wrong");
+  $("conditions").innerHTML = "<strong>The actual conditions:</strong> ";
+  $("conditions").append(s.conditions);
   $("reason").textContent = s.reason;
   $("restriction").textContent = `${FLAGS[s.flag].label}: ${FLAGS[s.flag].restriction}`;
   $("next-btn").textContent = index + 1 < deck.length ? "Next" : "See score";
