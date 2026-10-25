@@ -1,0 +1,122 @@
+:root {
+  --bg: #fafaf8;
+  --fg: #1a1a1a;
+  --muted: #6b6b6b;
+  --line: #dcdcd6;
+  --card: #ffffff;
+  --right: #1d7a3a;
+  --wrong: #b3261e;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #141414;
+    --fg: #ececec;
+    --muted: #9a9a9a;
+    --line: #333;
+    --card: #1e1e1e;
+    --right: #5fc27e;
+    --wrong: #ff7b72;
+  }
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font: 17px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+main {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 32px 16px 24px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+h1 { margin: 0; font-size: 1.8rem; letter-spacing: -0.02em; }
+.sub { margin: 4px 0 32px; color: var(--muted); }
+
+.screen { flex: 1; }
+
+button {
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+
+.primary {
+  background: var(--fg);
+  color: var(--bg);
+  border: 0;
+  border-radius: 6px;
+  padding: 10px 22px;
+}
+
+.progress { color: var(--muted); font-size: 0.9rem; margin: 0 0 8px; }
+
+.scenario {
+  font-size: 1.15rem;
+  min-height: 4.5em;
+  margin: 0 0 24px;
+}
+
+.draft {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 1px 6px;
+  margin-right: 6px;
+  vertical-align: 2px;
+}
+
+.flags {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+}
+
+.flag {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 10px 4px 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.85rem;
+  transition: border-color 0.15s, opacity 0.15s;
+}
+
+.flag img { width: 56px; height: 56px; }
+.flag:hover:not(:disabled) { border-color: var(--fg); }
+.flag:disabled { cursor: default; opacity: 0.35; }
+.flag.correct { opacity: 1; border: 2px solid var(--right); }
+.flag.chosen.incorrect { opacity: 1; border: 2px solid var(--wrong); }
+
+@media (max-width: 480px) {
+  .flags { grid-template-columns: repeat(3, 1fr); }
+}
+
+.feedback { margin-top: 24px; }
+.verdict { font-weight: 600; font-size: 1.1rem; margin: 0 0 4px; }
+.verdict.right { color: var(--right); }
+.verdict.wrong { color: var(--wrong); }
+.restriction { color: var(--muted); font-size: 0.9rem; }
+
+.score { font-size: 3rem; font-weight: 700; margin: 0; letter-spacing: -0.03em; }
+
+footer {
+  margin-top: 48px;
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+footer a { color: inherit; }

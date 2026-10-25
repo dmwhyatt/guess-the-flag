@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Guess the Flag</title>
+  <meta name="description" content="Can you guess the CUCBC flag from the weather? A very silly quiz.">
+  <link rel="icon" href="assets/flags/ryl.png">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main>
+    <header>
+      <h1>Guess the Flag</h1>
+      <p class="sub">Which flag would the Cam be under?</p>
+    </header>
+
+    <section id="start" class="screen">
+      <p><span id="count">Ten</span> rowing scenarios. Five flags. Guess what the Executive Committee would set.</p>
+      <button id="start-btn" class="primary">Start</button>
+    </section>
+
+    <section id="question" class="screen" hidden>
+      <p class="progress" id="progress"></p>
+      <p class="scenario" id="scenario"></p>
+      <div class="flags" id="flags"></div>
+      <div class="feedback" id="feedback" hidden>
+        <p class="verdict" id="result"></p>
+        <p id="reason"></p>
+        <p class="restriction" id="restriction"></p>
+        <button id="next-btn" class="primary">Next</button>
+      </div>
+    </section>
+
+    <section id="end" class="screen" hidden>
+      <p class="score" id="score"></p>
+      <p class="verdict" id="final-verdict"></p>
+      <button id="again-btn" class="primary">Play again</button>
+    </section>
+
+    <footer>
+      <p>For entertainment only. Not affiliated with CUCBC. Before boating, always check the real flag at <a href="https://cucbc.org/flag">cucbc.org/flag</a>.<br>Flag images © Cambridge University Combined Boat Clubs.</p>
+    </footer>
+  </main>
+
+  <script src="content.js"></script>
+  <script src="game.js"></script>
+</body>
+</html>
