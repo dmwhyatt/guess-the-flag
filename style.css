@@ -34,6 +34,7 @@ main {
   margin: 0 auto;
   padding: 40px 24px 32px;
   min-height: 100vh;
+  min-height: 100svh;
   display: flex;
   flex-direction: column;
 }
@@ -53,6 +54,7 @@ button {
   font: inherit;
   color: inherit;
   cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .primary {
@@ -104,14 +106,14 @@ button {
 }
 
 .flag img { width: 56px; height: 56px; }
-.flag:hover:not(:disabled) { border-color: var(--fg); }
+@media (hover: hover) {
+  .flag:hover:not(:disabled) { border-color: var(--fg); }
+  .hint-btn:hover { color: var(--fg); border-color: var(--fg); }
+}
 .flag:disabled { cursor: default; opacity: 0.35; }
 .flag.correct { opacity: 1; border: 2px solid var(--right); }
 .flag.chosen.incorrect { opacity: 1; border: 2px solid var(--wrong); }
 
-@media (max-width: 480px) {
-  .flags { grid-template-columns: repeat(3, 1fr); }
-}
 
 .feedback { margin-top: 24px; max-width: 720px; }
 /* Reserve the space so the layout doesn't jump when the answer appears. */
@@ -140,7 +142,6 @@ footer a { color: inherit; }
   padding: 8px 14px;
   margin: 0 0 20px;
 }
-.hint-btn:hover { color: var(--fg); border-color: var(--fg); }
 .hint-btn[hidden] { display: none; }
 
 .hints-used { color: var(--muted); margin: 0 0 16px; }
@@ -185,3 +186,23 @@ footer a { color: inherit; }
 .stats .value { font-size: 0.9rem; line-height: 1.3; }
 .stats li.key { border: 2px solid var(--fg); padding: 5px 11px 5px 9px; }
 .stats li.key svg { color: var(--fg); }
+
+/* Phones: tighter header, 3 + 2 flags with the last row centred, two
+   columns of condition chips, and no reserved feedback space (the page
+   scrolls anyway). */
+@media (max-width: 480px) {
+  main { padding: 24px 16px 24px; }
+  h1 { font-size: 1.5rem; }
+  .sub { margin-bottom: 20px; }
+  .scenario { font-size: 1.05rem; min-height: 0; margin-bottom: 16px; }
+
+  .flags { display: flex; flex-wrap: wrap; justify-content: center; }
+  .flag { flex: 0 0 calc((100% - 16px) / 3); padding: 8px 2px 6px; font-size: 0.8rem; }
+  .flag img { width: 44px; height: 44px; }
+
+  .stats { display: grid; grid-template-columns: 1fr 1fr; }
+  .stats li[data-stat="ice"] { grid-column: span 2; }
+
+  .feedback[hidden] { display: none; }
+  footer { padding-top: 32px; }
+}
