@@ -8,6 +8,10 @@
 //  Don't change `flag` unless you also change the conditions; the
 //  valid values are: "green", "yellow-green", "yellow", "red-yellow", "red".
 //
+//  `stats` are shown as icons above the flags. Keys: wind, temp,
+//  visibility, stream, level, and optionally ice. `key` names the stat
+//  that decided the flag; it is highlighted after the player answers.
+//
 //  `basis` says where the answer comes from:
 //    "handbook"  - an explicit criterion in the CUCBC Flag Guidelines
 //    "inferred"  - the handbook gives no threshold for this flag, so the
@@ -23,6 +27,7 @@ window.SCENARIOS = [
     basis: "inferred",
     conditions:
       "Light breeze (5-10 mph), normal river level, gentle stream, clear visibility, around 12°C.",
+    stats: { wind: "5–10 mph", temp: "12°C", visibility: "Clear", stream: "Gentle (<2 mph)", level: "Normal" },
     reason:
       "Nothing in the guidelines is close to being triggered, so there are no restrictions.",
     text:
@@ -33,6 +38,8 @@ window.SCENARIOS = [
     basis: "handbook",
     conditions:
       "Cold morning (3°C) with a 15 mph wind. Bracing, but above freezing and well under 35 mph.",
+    stats: { wind: "15 mph", temp: "3°C", visibility: "Clear", stream: "Gentle (<2 mph)", level: "Normal" },
+    key: "temp",
     reason:
       "The cold-weather rule only bites at 0°C or below with 25 mph wind; the wind rule needs 35 mph.",
     text:
@@ -43,6 +50,8 @@ window.SCENARIOS = [
     basis: "handbook",
     conditions:
       "Atmospheric morning mist, but a boat 300 m away is clearly visible. Calm, normal stream.",
+    stats: { wind: "Calm", temp: "2°C", visibility: "300 m (mist)", stream: "Gentle (<2 mph)", level: "Normal" },
+    key: "visibility",
     reason:
       "Fog only counts when you can't see another boat at 150 m. Spooky is not a flag colour.",
     text:
@@ -55,6 +64,8 @@ window.SCENARIOS = [
     basis: "inferred",
     conditions:
       "Steady 20-25 mph wind with occasional gusts, 8°C. Lumpy on the reaches, under the 35 mph Yellow threshold.",
+    stats: { wind: "20–25 mph, gusty", temp: "8°C", visibility: "Clear", stream: "Gentle (<2 mph)", level: "Normal" },
+    key: "wind",
     reason:
       "Too lively for novice coxes, not strong enough for Yellow: senior and University crews only.",
     text:
@@ -65,6 +76,8 @@ window.SCENARIOS = [
     basis: "inferred",
     conditions:
       "River up about 0.5 m after rain, stream running at 3-4 mph. Light wind, good visibility.",
+    stats: { wind: "5 mph", temp: "10°C", visibility: "Clear", stream: "3–4 mph", level: "+0.5 m" },
+    key: "stream",
     reason:
       "A noticeable stream, but under the 5 mph Yellow guideline: no novice coxes.",
     text:
@@ -77,6 +90,8 @@ window.SCENARIOS = [
     basis: "handbook",
     conditions:
       "At 22:00 the Met Office forecast for tomorrow morning shows winds of 35 mph or more.",
+    stats: { wind: "35+ mph (forecast)", temp: "7°C", visibility: "Clear", stream: "Gentle (<2 mph)", level: "Normal" },
+    key: "wind",
     reason:
       "A forecast wind of 35 mph or more means a Yellow flag is set at 22:00 for the next morning.",
     text:
@@ -87,6 +102,8 @@ window.SCENARIOS = [
     basis: "handbook",
     conditions:
       "Forecast -2°C with a 25 mph wind. Hypothermia risk for any crew sitting still for 10 minutes.",
+    stats: { wind: "25 mph", temp: "−2°C", visibility: "Clear", stream: "Gentle (<2 mph)", level: "Normal" },
+    key: "temp",
     reason:
       "0°C or below with a 25 mph wind triggers a Yellow flag.",
     text:
@@ -97,6 +114,8 @@ window.SCENARIOS = [
     basis: "handbook",
     conditions:
       "Thick fog: from the bank you can't make out another boat 150 m away. Otherwise calm.",
+    stats: { wind: "Calm", temp: "6°C", visibility: "<150 m (fog)", stream: "Gentle (<2 mph)", level: "Normal" },
+    key: "visibility",
     reason:
       "Fog that hides a boat at 150 m means Yellow, and every crew out must carry white bow and stern lights, even in daylight.",
     text:
@@ -109,6 +128,8 @@ window.SCENARIOS = [
     basis: "inferred",
     conditions:
       "Gale-force gusts of 45+ mph and the stream well over 5 mph, but the level is up less than 1.5 m and there is no ice.",
+    stats: { wind: "45+ mph gusts", temp: "9°C", visibility: "Clear", stream: "5+ mph", level: "+1 m" },
+    key: "wind",
     reason:
       "Well past Yellow but not technically unrowable: closed except tub pairs (Jesus Lock to Chesterton) and University crews with their Head Coach's permission.",
     text:
@@ -121,6 +142,8 @@ window.SCENARIOS = [
     basis: "handbook",
     conditions:
       "Hard frost overnight: ice more than 1 mm thick reaching more than 2 m out from the bank.",
+    stats: { wind: "5 mph", temp: "−4°C", visibility: "Clear", stream: "Gentle (<2 mph)", level: "Normal", ice: ">1 mm, 2 m+ from bank" },
+    key: "ice",
     reason:
       "Ice over 1 mm thick more than 2 m from the bank makes the river unrowable. Red: closed to everyone.",
     text:

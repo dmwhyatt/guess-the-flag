@@ -28,6 +28,35 @@ const FLAGS = {
   },
 };
 
+// Condition readouts shown above the flags, as inline SVG line icons.
+const wave = (y) => `<path d="M2 ${y}c2-2 4-2 6 0s4 2 6 0 4-2 6 0"/>`;
+const STATS = {
+  wind: {
+    label: "Wind",
+    icon: '<path d="M3 8h10a3 3 0 1 0-3-3M3 12h15a3 3 0 1 1-3 3M3 16h7"/>',
+  },
+  temp: {
+    label: "Temp",
+    icon: '<path d="M14 14.76V4.5a2.5 2.5 0 0 0-5 0v10.26a4.5 4.5 0 1 0 5 0z"/>',
+  },
+  visibility: {
+    label: "Visibility",
+    icon: '<path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',
+  },
+  stream: {
+    label: "Stream",
+    icon: wave(16) + '<path d="M4 8h14M15 5l3 3-3 3"/>',
+  },
+  level: {
+    label: "Level",
+    icon: wave(15) + wave(20) + '<path d="M12 3v8M9 6l3-3 3 3"/>',
+  },
+  ice: {
+    label: "Ice",
+    icon: '<path d="M12 2v20M3.3 7l17.4 10M3.3 17l17.4-10M9 4l3 2 3-2M9 20l3-2 3 2"/>',
+  },
+};
+
 const $ = (id) => document.getElementById(id);
 const screens = ["start", "question", "end"];
 
@@ -84,6 +113,17 @@ function render() {
     p.append(s.conditions);
   }
 
+  const stats = $("stats");
+  stats.innerHTML = "";
+  for (const [key, st] of Object.entries(STATS)) {
+    if (!s.stats?.[key]) continue;
+    const li = document.createElement("li");
+    li.dataset.stat = key;
+    li.innerHTML = `<svg viewBox="0 0 24 24" aria-hidden="true">${st.icon}</svg><span class="label">${st.label}</span><span class="value"></span>`;
+    li.querySelector(".value").textContent = s.stats[key];
+    stats.appendChild(li);
+  }
+
   for (const b of $("flags").children) {
     b.disabled = false;
     b.classList.remove("correct", "incorrect", "chosen");
@@ -108,8 +148,7 @@ function answer(key) {
   const result = $("result");
   result.textContent = right ? "Correct!" : `Wrong! It was ${FLAGS[s.flag].label}.`;
   result.className = "verdict " + (right ? "right" : "wrong");
-  $("conditions").innerHTML = "<strong>The actual conditions:</strong> ";
-  $("conditions").append(s.conditions);
+  if (s.key) $("stats").querySelector(`[data-stat="${s.key}"]`)?.classList.add("key");
   $("reason").textContent = s.reason;
   $("restriction").textContent = `${FLAGS[s.flag].label}: ${FLAGS[s.flag].restriction}`;
   $("next-btn").textContent = index + 1 < deck.length ? "Next" : "See score";
